@@ -1,0 +1,88 @@
+
+
+         Packages to Install
+          Microsoft.Entity.Framework Core
+          Microsoft.Entity.Framework Core.SqlServer
+          Microsoft Entity Framework Core.Tools
+
+
+         Database Connection
+
+         "DefaultConnection": "Server=DESKTOP-HEEKBHE\\SQLEXPRESS;Database=RestaurantDB;Trusted_Connection=True;TrustServerCertificate=True"
+
+
+    
+
+       Customers Class
+
+       public int Id { get; set; }
+public string Name { get; set; }
+public string Phone { get; set; }
+public string Address { get; set; }
+
+
+
+     CustomersDbContext Class
+
+
+     public class CustomersDbContext: DbContext
+{
+    public CustomersDbContext(DbContextOptions<CustomersDbContext> options)
+        : base(options)
+    {
+
+    }
+
+    public DbSet<Customers> Customer { get; set; }
+}
+
+
+
+
+
+
+    program.cs 
+
+
+    builder.Services.AddAuthentication(
+    CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(option =>
+    {
+        option.LoginPath = "/Access/Login";
+        option.ExpireTimeSpan = TimeSpan.FromMinutes(20);
+    });
+
+builder.Services.AddDbContext<CustomersDbContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
+
+builder.Services.AddDbContext<ProductsDbContext>(actions =>
+{
+    actions.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
+
+builder.Services.AddDbContext<OrdersDbContext>(choices =>
+{
+    choices.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
+
+builder.Services.AddDbContext<PaymentsDbContext>(pickups =>
+{
+    pickups.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
+
+
+
+ 
+
+    Migration and update database
+
+    add-migration first (first is name of the migration)
+
+    update-database
+
+
+    add-migration second -Context RestaurantManagement.Product.ProductsDbContext
+
+        update-database -Context RestaurantManagement.Product.ProductDbContext
